@@ -1,0 +1,8 @@
+{
+  "botauthtoken": "<insert auth token here>",
+  "database": {
+    "enabled": true,
+    "location": "./",
+    "filename": "database"
+  }
+}
