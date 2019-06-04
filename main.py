@@ -5,6 +5,9 @@ import requests
 import json
 import sqlite3
 import logging
+import googletrans
+import gibdetect
+
 
 class main:
 
@@ -12,6 +15,11 @@ class main:
         logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                             level=logging.INFO)
         print("Launching BEGONETHBOT")
+        self.gibdetector = gibdetect.gibdetect()
+        while True:
+            a = input("gibbyboi: ")
+            print(self.gibdetector.scan(a))
+
         with open("config.json","r") as cfg:
             self.config = json.loads(cfg.read())
         print("Connecting to bot")
@@ -53,11 +61,9 @@ class main:
 
         rawdata = requests.get(f"https://t.me/{username}")
         rawhtml = rawdata.content
-
         parsedhtml = BeautifulSoup(rawhtml,features="html.parser")
-
-        bio = parsedhtml.find("meta",attrs={"property":"og:description"})
-
+        bio = parsedhtml.find("meta",attrs={"property":"og:description"})["content"]
+        profilepic = parsedhtml.find("meta",attrs={"property":"og:image"})["content"]
 
 if __name__ == "__main__":
     main()
