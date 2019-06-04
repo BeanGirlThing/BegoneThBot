@@ -1,11 +1,16 @@
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
-from telegram.error import InvalidToken,Unauthorized,TelegramError,NetworkError
+from telegram.error import InvalidToken,Unauthorized
+from bs4 import BeautifulSoup
+import requests
 import json
 import sqlite3
+import logging
 
 class main:
 
     def __init__(self):
+        logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                            level=logging.INFO)
         print("Launching BEGONETHBOT")
         with open("config.json","r") as cfg:
             self.config = json.loads(cfg.read())
@@ -44,9 +49,14 @@ class main:
         context.message.chat.send_message("Pong!")
 
     def newuser(self,update,context):
-        id,first_name,username = context["message"]["new_chat_members"][0]["id"],context["message"]["new_chat_members"][0]["first_name"],context["message"]["new_chat_members"][0]["username"]
+        id,first_name,username,is_bot = context["message"]["new_chat_members"][0]["id"],context["message"]["new_chat_members"][0]["first_name"],context["message"]["new_chat_members"][0]["username"],context["message"]["new_chat_members"][0]["is_bot"]
 
+        rawdata = requests.get(f"https://t.me/{username}")
+        rawhtml = rawdata.content
 
+        parsedhtml = BeautifulSoup(rawhtml,features="html.parser")
+
+        bio = parsedhtml.find("meta",attrs={"property":"og:description"})
 
 
 if __name__ == "__main__":
