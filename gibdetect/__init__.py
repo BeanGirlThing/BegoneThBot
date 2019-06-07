@@ -5,7 +5,7 @@ https://github.com/rrenaud/Gibberish-Detector/blob/master/gib_detect.py
 
 This script is adapted from the original script designed for python 2
 
-His licence can be found in the child directory LICENCEINFORMATION
+His licence can be found this files root directory under "Original GibberishDetection LICENCE"
 
 """
 

@@ -1,5 +1,6 @@
 {
   "botauthtoken": "<insert auth token here>",
+  "debugmode": false,
   "database": {
     "enabled": true,
     "location": "./",

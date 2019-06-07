@@ -1,0 +1,33 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          begonethbot
+# Required-Start:    $python
+# Required-Stop:     $python
+# Short-Description: Start/stop script for begonethbot telegram bot
+# Author:            Jessica Ampstead
+### END INIT INFO
+
+PYTHON=/usr/bin/python3
+
+do_start()
+{
+   echo "Starting BeGoneThBot!";
+   $PYTHON /home/<user>/<path>/<to>/<executable>/main.py
+}
+
+do_stop()
+{
+   echo "Stopping BeGoneThBot!"
+}
+
+
+case "$1" in
+   start)
+     do_start
+     ;;
+   stop)
+     do_stop
+     ;;
+esac
+
+exit 0

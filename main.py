@@ -8,7 +8,6 @@ import sqlite3
 import logging
 from googletrans import Translator
 import gibdetect
-from time import gmtime
 
 
 class main:
@@ -30,6 +29,8 @@ class main:
         # Load the config
         with open("config.json","r") as cfg:
             self.config = json.loads(cfg.read())
+
+        self.debug = self.config["debugmode"]
 
         print("Connecting to bot")
 
@@ -93,6 +94,7 @@ class main:
 
             # Create the redflags variable which will be used to counting the number of redflags a profile has
             redflags = 0
+            flaglist = []
 
             # Push the first name of the user into google translate to get information on its source language and translation when in english
             tranname = self.translator.translate(first_name, dest="en")
@@ -103,32 +105,40 @@ class main:
                 redflags += 1
                 # asp is used for database purposes and is used to tell the database wether the original name contained Arabic Script
                 asp = "1"
+                flaglist.append("Language arabic")
 
             elif tranname.src == "fa":
                 redflags += 1
                 asp = "1"
+                flaglist.append("Language persian")
             else:
                 asp = "0"
 
+
             if not self.gibdetector.scan(tranname.text):
                 redflags += 1
+                flaglist.append("First_name is gibberish")
 
             if profilepic == "https://telegram.org/img/t_logo.png":
                 redflags += 1
                 iconpresence = "0"
+                flaglist.append("User does not have a profile pic")
             else:
                 iconpresence = "1"
 
             if bio == f"You can contact @{username} right away.":
                 redflags += 1
+                flaglist.append("User has no/default bio")
 
             if not self.gibdetector.scan(username):
                 redflags += 1
+                flaglist.append("Username is gibberish")
 
             if is_bot == True:
                 redflags = 0
 
-            redflags = 4
+            if self.debug == True:
+                print(f"**Ooh its debug time!**\nUser connected to group!\n**Userdata:**\nFirst Name: {first_name}\nUsername: {username}\nProfile image link: {profilepic}\nBio: {bio}\nUsername language: {tranname.src}\nUsername translated: {tranname.text}\nUser has hit {str(redflags)} redflags! These being:\n{str(flaglist)}")
 
             if redflags >= 4:
                 try:
