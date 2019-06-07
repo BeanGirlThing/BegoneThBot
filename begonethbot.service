@@ -1,0 +1,12 @@
+[Unit]
+Description=BeGoneThBot Service (Runs telegram BeGoneThBot)
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=<linux user>
+ExecStart=/usr/bin python3 /<path>/<to>/<executable>/main.py
+
+[Install]
+WantedBy=multi-user.target

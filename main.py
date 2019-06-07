@@ -1,3 +1,17 @@
+"""
+
+BEGONETHBOT MAIN SCRIPT
+
+Version 1.0
+
+Please refer to LICENCE for licence information
+Licence information for gibberish detection scripts can be found in the "gibdetect" directory
+
+"""
+
+
+
+
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 from telegram.error import InvalidToken,Unauthorized,TelegramError
 from telegram import Bot
