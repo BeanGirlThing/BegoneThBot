@@ -2,7 +2,7 @@
 
 BEGONETHBOT MAIN SCRIPT
 
-Version 1.0
+Version 1.0.1
 
 Please refer to LICENCE for licence information
 Licence information for gibberish detection scripts can be found in the "gibdetect" directory
@@ -34,8 +34,7 @@ class main:
 
         print("Launching BEGONETHBOT")
 
-        # Create the gibberish detection object
-        self.gibdetector = gibdetect.gibdetect()
+
 
         # Create the google translate translator object
         self.translator = Translator()
@@ -45,6 +44,10 @@ class main:
             self.config = json.loads(cfg.read())
 
         self.debug = self.config["debugmode"]
+        self.install = self.config["installlocation"]
+
+        # Create the gibberish detection object
+        self.gibdetector = gibdetect.gibdetect(self.install)
 
         print("Connecting to bot")
 
@@ -165,12 +168,12 @@ class main:
                         if self.config["database"]["enabled"] == True:
                             try:
                                 # Try to connect to the database
-                                self.db = sqlite3.connect(f"file:{self.config['database']['location']}{self.config['database']['filename']}.db?mode=rw", uri=True)
+                                self.db = sqlite3.connect(f"file:{self.install}/{self.config['database']['filename']}.db?mode=rw", uri=True)
                                 # Create a cursor for that connection
                                 self.cursor = self.db.cursor()
                             except sqlite3.OperationalError:
                                 # If the database could not be connected to then create a database
-                                self.db = sqlite3.connect(f"{self.config['database']['location']}{self.config['database']['filename']}.db")
+                                self.db = sqlite3.connect(f"{self.install}/{self.config['database']['filename']}.db")
                                 # Create a cursor for that connection
                                 self.cursor = self.db.cursor()
                                 # Create a table in the database that will store information on bots

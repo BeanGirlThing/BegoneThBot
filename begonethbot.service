@@ -6,7 +6,7 @@ StartLimitIntervalSec=0
 [Service]
 Type=simple
 User=<linux user>
-ExecStart=/usr/bin python3 /<path>/<to>/<executable>/main.py
+ExecStart=/<path>/<to>/<python7>/python /<path>/<to>/<executable>/main.py
 
 [Install]
 WantedBy=multi-user.target
