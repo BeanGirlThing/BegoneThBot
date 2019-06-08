@@ -4,7 +4,6 @@
   "debugmode": false,
   "database": {
     "enabled": true,
-    "location": "./",
     "filename": "database"
   }
 }

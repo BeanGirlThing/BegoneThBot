@@ -22,6 +22,7 @@ import sqlite3
 import logging
 from googletrans import Translator
 import gibdetect
+import sys
 
 
 class main:
@@ -40,7 +41,7 @@ class main:
         self.translator = Translator()
 
         # Load the config
-        with open("config.json","r") as cfg:
+        with open(f"{sys.argv[1]}/config.json","r") as cfg:
             self.config = json.loads(cfg.read())
 
         self.debug = self.config["debugmode"]
