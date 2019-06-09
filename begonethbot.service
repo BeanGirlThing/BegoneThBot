@@ -1,0 +1,11 @@
+[Unit]
+Description=BeGoneThBot Service. Runs Telegram BeGoneThBot
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/<path to install dir>/begonethbot
+ExecStart=/<path to install dir>/begonethbot/start.sh
+
+[Install]
+WantedBy=multi-user.target
