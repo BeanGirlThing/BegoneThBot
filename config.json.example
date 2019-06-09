@@ -1,6 +1,5 @@
 {
   "botauthtoken": "<insert auth token here>",
-  "installlocation": "/home/",
   "debugmode": false,
   "database": {
     "enabled": true,

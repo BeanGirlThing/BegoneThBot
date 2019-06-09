@@ -22,33 +22,37 @@ import sqlite3
 import logging
 from googletrans import Translator
 import gibdetect
-import sys
 
 
 class main:
 
     def __init__(self):
 
-        # Initialise logging at a basic level
-        logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                            level=logging.INFO)
-
         print("Launching BEGONETHBOT")
 
+        # Initialise logging at a basic level
+        with open("./config.json","r") as cfg:
+            self.config = json.loads(cfg.read())
 
+        self.debug = self.config["debugmode"]
+
+        if self.debug:
+            print("Debug mode is on")
+            logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                            level=logging.DEBUG)
+        else:
+            logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                                level=logging.INFO)
 
         # Create the google translate translator object
         self.translator = Translator()
 
         # Load the config
-        with open(f"{sys.argv[1]}/config.json","r") as cfg:
-            self.config = json.loads(cfg.read())
 
-        self.debug = self.config["debugmode"]
-        self.install = self.config["installlocation"]
 
         # Create the gibberish detection object
-        self.gibdetector = gibdetect.gibdetect(self.install)
+        self.gibdetector = gibdetect.gibdetect()
+
 
         print("Connecting to bot")
 
@@ -96,6 +100,12 @@ class main:
         # Gather information about the user based on the join message
         id,first_name,username,is_bot = context["message"]["new_chat_members"][0]["id"],context["message"]["new_chat_members"][0]["first_name"],context["message"]["new_chat_members"][0]["username"],context["message"]["new_chat_members"][0]["is_bot"]
         dcontext = context.to_dict()
+
+        try:
+            dcontext["message"]["from"]["username"]
+        except KeyError:
+            return 0
+
         if username == dcontext["message"]["from"]["username"]:
 
             # Get a raw string of html data for the telegram profile page based on the username
@@ -169,12 +179,12 @@ class main:
                         if self.config["database"]["enabled"] == True:
                             try:
                                 # Try to connect to the database
-                                self.db = sqlite3.connect(f"file:{self.install}/{self.config['database']['filename']}.db?mode=rw", uri=True)
+                                self.db = sqlite3.connect(f"file:./{self.config['database']['filename']}.db?mode=rw", uri=True)
                                 # Create a cursor for that connection
                                 self.cursor = self.db.cursor()
                             except sqlite3.OperationalError:
                                 # If the database could not be connected to then create a database
-                                self.db = sqlite3.connect(f"{self.install}/{self.config['database']['filename']}.db")
+                                self.db = sqlite3.connect(f"./{self.config['database']['filename']}.db")
                                 # Create a cursor for that connection
                                 self.cursor = self.db.cursor()
                                 # Create a table in the database that will store information on bots
