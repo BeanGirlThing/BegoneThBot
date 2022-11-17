@@ -3,9 +3,9 @@
 
 Information for group owners can be found here:
 
-https://github.com/Merhlim/BegoneThBot/wiki/Information-for-group-owners
+https://github.com/BeanGirlThing/BegoneThBot/wiki/Information-for-group-owners
 
 Information for developers can be found here:
 
-https://github.com/Merhlim/BegoneThBot/wiki/Information-for-developers
+https://github.com/BeanGirlThing/BegoneThBot/wiki/Information-for-developers
 
